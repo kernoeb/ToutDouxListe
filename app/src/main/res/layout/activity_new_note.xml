@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical" android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:theme="@style/AppTheme2"
+
+    >
+
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/titleNewNote"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/intituleId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/nameTaskAdd" />
+
+    <EditText
+        android:id="@+id/descriptionId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/descriptionTaskAdd" />
+
+    <EditText
+        android:id="@+id/dureeId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/dureeTache"/>
+
+    <EditText
+        android:id="@+id/dateId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+
+        android:focusable="false"
+        android:clickable="true"
+        android:inputType="none"
+        android:hint="@string/dateTache"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choisir une couleur" />
+
+        <Button
+            android:id="@+id/buttonColor"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/saveTask" />
+
+</LinearLayout>

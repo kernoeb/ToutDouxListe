@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Tout-Doux App</string>
+    <string name="ButtonGenerator">Ajouter une tâche</string>
+    <string name="textName" />
+    <string name="titleApp">Tout-Doux App</string>
+    <string name="titleNewNote">Ajouter une nouvelle note</string>
+    <string name="description">Description</string>
+    <string name="nomTache">Nom</string>
+    <string name="dureeTache">Durée</string>
+    <string name="dateTache">Date</string>
+    <string name="nameTaskAdd">Nom de la tâche</string>
+    <string name="descriptionTaskAdd">Description de la tâche</string>
+    <string name="dureeTaskAdd">Durée de la tâche</string>
+    <string name="dateTaskAdd">Ajouter une date</string>
+    <string name="saveTask">Sauvegarder la tâche</string>
+
+    <array name="dialog">
+        <item>Bonsoir</item>
+        <item>Bonsoir</item>
+        <item>Bonsoir</item>
+        <item>Bonsoir</item>
+    </array>
+</resources>
