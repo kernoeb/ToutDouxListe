@@ -17,7 +17,7 @@ import static com.dutinfo.boisnard.tp12.AdapterList.itemListener;
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 //    private Task task;
 
-    public TextView intitule, description, duree, date;
+    public TextView intitule, description, duree, date, url;
 //    private View view;
 
     public ViewHolder(@NonNull View view) {
@@ -29,6 +29,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         this.description = view.findViewById(R.id.description);
         this.duree = view.findViewById(R.id.duree);
         this.date = view.findViewById(R.id.date);
+        this.url = view.findViewById(R.id.url);
     }
 
 

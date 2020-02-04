@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 //        if (this.db.taskDAO().isCompleted(position) == 1) {
         if (this.tasks.get(position).isCompleted()) {
             System.out.println("COMPLÉTÉ > NON COMPLÉTÉ" + position);
-            this.db.taskDAO().editCompleted(false, (position));
+            this.db.taskDAO().editCompleted(false, (position+1));
             this.tasks.get(position).setCompleted(false);
 
             intitule.setPaintFlags(0);
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
         } else {
             System.out.println("NON COMPLÉTÉ > COMPLÉTÉ " + position);
-            this.db.taskDAO().editCompleted(true, (position));
+            this.db.taskDAO().editCompleted(true, (position+1));
             this.tasks.get(position).setCompleted(true);
 
 
@@ -141,16 +141,24 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         intent.putExtra("description", t.getDescription());
         intent.putExtra("duree", t.getDuree());
         intent.putExtra("date", t.getDate());
+        intent.putExtra("url", t.getUrl());
         intent.putExtra("position", position);
         intent.putExtra("edit", true);
         startActivityForResult(intent, SECOND_ACTIVITY_REQUEST);
+    }
+
+    public void openWebview(int position) {
+        final Intent intent = new Intent(this, MyWebViewClient.class);
+        Task t = this.tasks.get(position);
+        intent.putExtra("url", t.getUrl());
+        startActivity(intent);
     }
 
     public void openDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Que voulez-vous faire ?");
 
-        String[] actions = {"Modifier", "Supprimer", "Mettre un rappel"};
+        String[] actions = {"Modifier", "Supprimer", "Ouvrir l'URL"};
         builder.setItems(actions, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -166,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
                         break;
                     case 2:
                         dialog.dismiss();
-                        System.out.println("Bonsoir 3");
+                        openWebview(position);
                         break;
                 }
             }

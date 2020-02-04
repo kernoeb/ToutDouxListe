@@ -1,32 +1,37 @@
 package com.dutinfo.boisnard.tp12;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
 
 public class MyWebViewClient extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_web_view_client);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.webview_layout);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        WebView webView = findViewById(R.id.webview);
+        webView.setWebViewClient(new WebViewClient());
+        WebSettings params = webView.getSettings();
+        params.setJavaScriptEnabled(true);
+        params.setBuiltInZoomControls(true);
+
+        Bundle bundle = getIntent().getExtras();
+        String url = bundle.getString("url");
+        webView.loadUrl(url);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
+    }
 }

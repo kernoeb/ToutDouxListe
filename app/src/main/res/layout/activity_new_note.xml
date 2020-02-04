@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:orientation="vertical" android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:theme="@style/AppTheme2"
-
-    >
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme2">
 
 
     <TextView
@@ -22,37 +19,45 @@ android:theme="@style/AppTheme2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/nameTaskAdd" />
+        android:hint="@string/nameTaskAdd"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/descriptionId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/descriptionTaskAdd" />
+        android:hint="@string/descriptionTaskAdd"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/dureeId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/dureeTache"/>
+        android:hint="@string/dureeTache"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/dateId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-
-        android:focusable="false"
         android:clickable="true"
-        android:inputType="none"
+
+        android:ems="10"
+        android:focusable="false"
         android:hint="@string/dateTache"
+        android:inputType="none"
 
         />
+
+    <EditText
+        android:id="@+id/url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Lien vers une page web"
+        android:inputType="textPersonName" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -20,4 +20,5 @@
         <item>Bonsoir</item>
         <item>Bonsoir</item>
     </array>
+    <string name="title_activity_my_web_view_client">MyWebViewClient</string>
 </resources>

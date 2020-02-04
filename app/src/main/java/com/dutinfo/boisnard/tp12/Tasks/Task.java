@@ -27,7 +27,10 @@ public class Task {
     @ColumnInfo(name = "completed")
     private boolean completed;
 
-    public Task(int uid, String intitule, String description, String duree, String date, int color, boolean completed) {
+    @ColumnInfo(name = "url")
+    private String url;
+
+    public Task(int uid, String intitule, String description, String duree, String date, int color, boolean completed, String url) {
         this.uid = uid;
         this.intitule = intitule;
         this.description = description;
@@ -35,6 +38,15 @@ public class Task {
         this.date = date;
         this.color = color;
         this.completed = completed;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public boolean isCompleted() {

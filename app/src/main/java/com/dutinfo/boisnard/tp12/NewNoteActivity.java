@@ -27,6 +27,7 @@ public class NewNoteActivity extends AppCompatActivity {
     EditText dateText;
     int colorC = -1;
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return true;
@@ -136,12 +137,13 @@ public class NewNoteActivity extends AppCompatActivity {
                 EditText et2 = findViewById(R.id.descriptionId);
                 EditText et3 = findViewById(R.id.dureeId);
                 EditText et4 = findViewById(R.id.dateId);
+                EditText et5 = findViewById(R.id.url);
                 if (!et.getText().toString().matches("") && !et2.getText().toString().matches("")) {
 
                     if (colorC != -1)
-                        db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, false));
+                        db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, false, et5.getText().toString()));
                     else
-                        db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, false));
+                        db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, false, et5.getText().toString()));
 
                     finish();
                 }
