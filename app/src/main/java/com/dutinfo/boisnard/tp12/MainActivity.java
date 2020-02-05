@@ -281,22 +281,29 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         colors.add("#ffffff");
         switch (item.getItemId()) {
             case R.id.filter:
-                ColorPicker cP = new ColorPicker(this);
+                final ColorPicker cP = new ColorPicker(this);
+                cP.setTitle("Choisir une couleur");
 
                 cP.setColors(colors);
 
-                cP.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+                cP.disableDefaultButtons(true);
+
+                cP.addListenerButton("Réinitialiser", new ColorPicker.OnButtonListener() {
                     @Override
-                    public void onChooseColor(int position, int color) {
+                    public void onClick(View v, int position, int color) {
+                        sortByColor(null);
+                        cP.dismissDialog();
+                    }
+                });
+
+                cP.addListenerButton("OK", new ColorPicker.OnButtonListener() {
+                    @Override
+                    public void onClick(View v, int position, int color) {
                         if (position >= 0 && position < colors.size())
                             sortByColor(colors.get(position));
                         else
                             sortByColor(null);
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        sortByColor(null);
+                        cP.dismissDialog();
                     }
                 });
                 cP.show();

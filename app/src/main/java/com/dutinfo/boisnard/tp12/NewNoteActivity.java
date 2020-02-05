@@ -141,20 +141,27 @@ public class NewNoteActivity extends AppCompatActivity {
         colorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ColorPicker cP = new ColorPicker(NewNoteActivity.this);
+                final ColorPicker cP = new ColorPicker(NewNoteActivity.this);
+
+                cP.setTitle("Choisir une couleur");
 
                 cP.setColors(colors);
 
-                cP.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+                cP.disableDefaultButtons(true);
+
+                cP.addListenerButton("Annuler", new ColorPicker.OnButtonListener() {
                     @Override
-                    public void onChooseColor(int position, int color) {
+                    public void onClick(View v, int position, int color) {
+                        cP.dismissDialog();
+                    }
+                });
+
+                cP.addListenerButton("OK", new ColorPicker.OnButtonListener() {
+                    @Override
+                    public void onClick(View v, int position, int color) {
                         colorC = color;
                         buttonColor.setBackgroundColor(color);
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // put code
+                        cP.dismissDialog();
                     }
                 });
                 cP.show();
