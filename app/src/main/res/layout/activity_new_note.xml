@@ -31,7 +31,7 @@
         android:ems="10"
         android:gravity="top"
         android:hint="@string/descriptionTaskAdd"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName|textMultiLine" />
 
     <EditText
         android:id="@+id/dureeId"

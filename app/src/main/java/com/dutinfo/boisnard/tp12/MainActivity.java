@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         intent.putExtra("description", t.getDescription());
         intent.putExtra("duree", t.getDuree());
         intent.putExtra("date", t.getDate());
+        intent.putExtra("color", t.getColor());
         intent.putExtra("url", t.getUrl());
         intent.putExtra("position", position);
 

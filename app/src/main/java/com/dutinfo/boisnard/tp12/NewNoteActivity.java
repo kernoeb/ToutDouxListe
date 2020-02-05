@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.dutinfo.boisnard.tp12.Tasks.Task;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +50,9 @@ public class NewNoteActivity extends AppCompatActivity {
         final Bundle intent = getIntent().getExtras();
         if (intent != null) {
             if (intent.getBoolean("edit")) {
+                TextView title = findViewById(R.id.textView);
+                title.setText("Modifier la note");
+
                 EditText intitule = findViewById(R.id.intituleId);
                 intitule.setText(intent.getString("intitule"));
 
@@ -58,6 +64,13 @@ public class NewNoteActivity extends AppCompatActivity {
 
                 EditText date = findViewById(R.id.dateId);
                 date.setText(intent.getString("date"));
+
+                EditText url = findViewById(R.id.url);
+                url.setText(intent.getString("url"));
+
+                Button color = findViewById(R.id.buttonColor);
+                color.setBackgroundColor(intent.getInt("color"));
+                colorC = intent.getInt("color");
             }
         }
 
