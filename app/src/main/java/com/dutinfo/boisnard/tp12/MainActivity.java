@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
         this.layoutManager = new LinearLayoutManager(getApplicationContext());
 
-
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerView.setItemAnimator(new DefaultItemAnimator());
 
