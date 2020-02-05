@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
         if (this.tasks.get(position).isCompleted()) {
             System.out.println("COMPLÉTÉ > NON COMPLÉTÉ" + position);
-            this.db.taskDAO().editCompleted(false, (position + 1));
+            this.db.taskDAO().editCompleted(false, (this.tasks.get(position).getUid()));
             this.tasks.get(position).setCompleted(false);
 
             intitule.setPaintFlags(0);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
             drawable.setColor(this.tasks.get(position).getColor());
         } else {
             System.out.println("NON COMPLÉTÉ > COMPLÉTÉ " + position);
-            this.db.taskDAO().editCompleted(true, (position + 1));
+            this.db.taskDAO().editCompleted(true, (this.tasks.get(position).getUid()));
             this.tasks.get(position).setCompleted(true);
 
 
@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 //        final int position = this.tasks.get(p).getUid();
 
         Task t = this.tasks.get(position);
+        intent.putExtra("id", t.getUid());
         intent.putExtra("intitule", t.getIntitule());
         intent.putExtra("description", t.getDescription());
         intent.putExtra("duree", t.getDuree());
