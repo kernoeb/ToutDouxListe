@@ -20,5 +20,6 @@ public class PickerDialogFragment extends TimeDurationPickerDialogFragment {
     @Override
     public void onDurationSet(TimeDurationPicker view, long duration) {
 //        DurationToast.show(getActivity(), duration);
+        System.out.println(duration);
     }
 }

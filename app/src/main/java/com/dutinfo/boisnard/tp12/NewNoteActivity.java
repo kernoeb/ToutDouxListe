@@ -108,13 +108,14 @@ public class NewNoteActivity extends AppCompatActivity {
 
 
         // Todo: durée dialog
-//        final EditText duree = findViewById(R.id.dureeId);
-//        duree.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new PickerDialogFragment().show(getFragmentManager(), "dialog");
-//            }
-//        });
+        final EditText duree = findViewById(R.id.dureeId);
+        duree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickerDialogFragment pdf = new PickerDialogFragment();
+                pdf.show(getFragmentManager(), "dialog");
+            }
+        });
 
 
         final Button colorPicker = findViewById(R.id.buttonCP);
@@ -180,8 +181,10 @@ public class NewNoteActivity extends AppCompatActivity {
                             System.out.println("NewNoteActivity -> "  + intent.getInt("position"));
                             if (colorC != -1)
                                 db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, et5.getText().toString(), (intent.getInt("position")+1));
+//                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, et5.getText().toString(), (intent.getInt("position")));
                             else
                                 db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, et5.getText().toString(), (intent.getInt("position")+1));
+//                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, et5.getText().toString(), (intent.getInt("position")));
                             finish();
                         } else {
 

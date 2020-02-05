@@ -16,6 +16,9 @@ public interface TaskDAO {
     @Query("SELECT * FROM task")
     List<Task> getAll();
 
+    @Query("SELECT * FROM task WHERE color = :color")
+    List<Task> getAllByColor(int color);
+
     @Query("SELECT * FROM task WHERE uid = (:userIds)")
     Task getById(int userIds);
 

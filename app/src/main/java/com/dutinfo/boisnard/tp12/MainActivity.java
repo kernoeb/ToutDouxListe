@@ -7,10 +7,14 @@ import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Task> tasks = new ArrayList<>();
     private AppDatabase db;
+    private boolean sorted = false;
 
 
     @Override
@@ -41,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         this.db = Room.databaseBuilder(this, AppDatabase.class, "task").allowMainThreadQueries().build();
 
         this.tasks = new ArrayList<>(this.db.taskDAO().getAll());
-//        Collections.reverse(this.tasks);
-
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
             }
         });
 
+        TextView tv = findViewById(R.id.textView2);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortByColor();
+            }
+        });
 
         this.recyclerView = findViewById(R.id.recyclerView);
 
@@ -69,6 +79,21 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         setUpRecyclerView();
     }
 
+    public void sortByColor() {
+        if (!this.sorted) {
+            for (int i = 0; i < this.tasks.size(); i++) {
+                if (this.tasks.get(i).getColor() != Color.parseColor("#cfff95")) {
+                    this.recyclerView.getChildAt(i).setVisibility(View.GONE);
+//                    this.recyclerView.getChildAt(i).setLayoutParams(new RecyclerView.LayoutParams(0,0));
+                }
+            }
+            this.sorted = true;
+        } else {
+            this.mAdapter = new AdapterList(this.tasks, this, getApplicationContext());
+            this.recyclerView.setAdapter(mAdapter);
+            this.sorted = false;
+        }
+    }
 
     public void openNewActivity() {
         Intent intent = new Intent(this, NewNoteActivity.class);
@@ -82,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         TextView description = v.findViewById(R.id.description);
         TextView duree = v.findViewById(R.id.duree);
         TextView date = v.findViewById(R.id.date);
+
+//        final int position = this.tasks.get(p).getUid();
 
         if (this.tasks.get(position).isCompleted()) {
             System.out.println("COMPLÉTÉ > NON COMPLÉTÉ" + position);
@@ -123,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
     public void editElement(int position) {
         Intent intent = new Intent(this, NewNoteActivity.class);
+
+//        final int position = this.tasks.get(p).getUid();
+
         Task t = this.tasks.get(position);
         intent.putExtra("intitule", t.getIntitule());
         intent.putExtra("description", t.getDescription());
@@ -144,6 +174,10 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     public void openDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Que voulez-vous faire ?");
+
+//        final int position = this.tasks.get(p).getUid();
+//        System.out.println("COUCOU : " + p + " " + position);
+//        System.out.println("COUCOU : " + position);
 
         if (this.tasks.get(position).getUrl() != null && this.tasks.get(position).getUrl().matches("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")) {
             String[] actions = {"Modifier", "Supprimer", "Ouvrir l'URL"};

@@ -88,5 +88,6 @@ public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
     public interface RecyclerViewClickListener {
         void recyclerViewListClicked(View v, int position);
         void recyclerViewListClicked2(View v, int position);
+//        void sortByColor(View v, int position);
     }
 }

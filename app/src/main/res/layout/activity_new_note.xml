@@ -39,7 +39,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/dureeTache"
-        android:inputType="textPersonName"
+        android:inputType="none"
+        android:focusable="false"
+        android:clickable="true"
         android:autofillHints="" />
 
     <EditText
