@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +24,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import petrov.kristiyan.colorpicker.ColorPicker;
+
 /**
  * MainActivity of the app
  */
@@ -35,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Task> tasks = new ArrayList<>();
     private AppDatabase db;
-    private boolean sorted = false;
 
 
     @Override
@@ -54,14 +57,6 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
             @Override
             public void onClick(View v) {
                 openNewActivity();
-            }
-        });
-
-        TextView tv = findViewById(R.id.textView2);
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortByColor();
             }
         });
 
@@ -86,19 +81,19 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     /**
      * Sort tasks by the color
      */
-    public void sortByColor() {
-        if (!this.sorted) {
+    public void sortByColor(String color) {
+        if (color !=null) {
             for (int i = 0; i < this.tasks.size(); i++) {
-                if (this.tasks.get(i).getColor() != Color.parseColor("#cfff95")) {
+                if (this.tasks.get(i).getColor() != Color.parseColor(color)) {
                     this.recyclerView.getChildAt(i).setVisibility(View.GONE);
-//                    this.recyclerView.getChildAt(i).setLayoutParams(new RecyclerView.LayoutParams(0,0));
+                }
+                if (this.tasks.get(i).getColor() == Color.parseColor(color)) {
+                    this.recyclerView.getChildAt(i).setVisibility(View.VISIBLE);
                 }
             }
-            this.sorted = true;
         } else {
             this.mAdapter = new AdapterList(this.tasks, this, getApplicationContext());
             this.recyclerView.setAdapter(mAdapter);
-            this.sorted = false;
         }
     }
 
@@ -262,6 +257,53 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(this));
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //ajoute les entrées de menu_test à l'ActionBar
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    //gère le click sur une action de l'ActionBar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final ArrayList<String> colors = new ArrayList<>();
+        colors.add("#cfff95");
+        colors.add("#ffff8b");
+        colors.add("#c3fdff");
+        colors.add("#ffc1e3");
+        colors.add("#ffffb3");
+        colors.add("#ffddc1");
+        colors.add("#ffc4ff");
+        colors.add("#ffffff");
+        switch (item.getItemId()){
+            case R.id.filter:
+                ColorPicker cP = new ColorPicker(this);
+
+                cP.setColors(colors);
+
+                cP.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+                    @Override
+                    public void onChooseColor(int position, int color) {
+                        if(position >= 0 && position<colors.size())
+                            sortByColor(colors.get(position));
+                        else
+                            sortByColor(null);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        sortByColor(null);
+                    }
+                });
+                cP.show();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 }
