@@ -2,20 +2,22 @@ package com.dutinfo.boisnard.tp12;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * WebViewClient
+ */
 public class MyWebViewClient extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
 
+        // Back arrow in top bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         WebView webView = findViewById(R.id.webview);
@@ -24,6 +26,7 @@ public class MyWebViewClient extends AppCompatActivity {
         params.setJavaScriptEnabled(true);
         params.setBuiltInZoomControls(true);
 
+        // Get the url
         Bundle bundle = getIntent().getExtras();
         String url = bundle.getString("url");
         webView.loadUrl(url);

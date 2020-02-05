@@ -1,23 +1,17 @@
 package com.dutinfo.boisnard.tp12;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
-import com.dutinfo.boisnard.tp12.Tasks.Task;
 
 import static com.dutinfo.boisnard.tp12.AdapterList.itemListener;
 
+/**
+ * ViewHolder for the RecyclerView
+ */
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-//    private Task task;
-
     public TextView intitule, description, duree, date, url;
 
     public ViewHolder(@NonNull View view) {
@@ -29,12 +23,6 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         this.duree = view.findViewById(R.id.duree);
         this.date = view.findViewById(R.id.date);
         this.url = view.findViewById(R.id.url);
-
-//        hideItem();
-    }
-
-    private void hideItem() {
-        itemView.setVisibility(View.GONE);
     }
 
     @Override

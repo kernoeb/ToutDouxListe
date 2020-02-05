@@ -7,6 +7,9 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Space between items
+ */
 public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     private static final boolean DEFAULT_ADD_SPACE_ABOVE_FIRST_ITEM = false;
     private static final boolean DEFAULT_ADD_SPACE_BELOW_LAST_ITEM = false;

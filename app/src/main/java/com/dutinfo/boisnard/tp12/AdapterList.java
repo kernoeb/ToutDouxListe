@@ -8,14 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.dutinfo.boisnard.tp12.Tasks.Task;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter
+ */
 public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
 
     public static RecyclerViewClickListener itemListener;
@@ -52,29 +53,19 @@ public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
         GradientDrawable drawable = (GradientDrawable) holder.itemView.getBackground();
         drawable.setColor(currentColor);
 
-//        AppDatabase db = Room.databaseBuilder(this.context, AppDatabase.class, "task").allowMainThreadQueries().build();
-
-
         if (!task.isCompleted()) {
-//        if (!db.taskDAO().isCompleted(position)) {
-            System.out.println("BONJOUR A TOUS");
-
-            System.out.println("NON COMPLÉTÉ " + position);
             holder.intitule.setPaintFlags(0);
             holder.description.setPaintFlags(0);
             holder.date.setPaintFlags(0);
             holder.duree.setPaintFlags(0);
             GradientDrawable d = (GradientDrawable) holder.itemView.getBackground();
             d.setColor(task.getColor());
-
         } else {
-            System.out.println("COMPLÉTÉ " + position);
-
+            // Strike out the text
             holder.intitule.setPaintFlags(holder.intitule.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             holder.description.setPaintFlags(holder.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             holder.date.setPaintFlags(holder.date.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             holder.duree.setPaintFlags(holder.duree.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
             GradientDrawable d = (GradientDrawable) holder.itemView.getBackground();
             d.setColor(Color.parseColor("#cfd8dc"));
         }
@@ -85,9 +76,10 @@ public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
         return this.tasks.size();
     }
 
+    // Interface to catch short press and long press
     public interface RecyclerViewClickListener {
         void recyclerViewListClicked(View v, int position);
+
         void recyclerViewListClicked2(View v, int position);
-//        void sortByColor(View v, int position);
     }
 }

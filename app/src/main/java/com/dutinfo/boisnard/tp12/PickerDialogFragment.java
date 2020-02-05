@@ -1,9 +1,11 @@
 package com.dutinfo.boisnard.tp12;
 
-import mobi.upod.timedurationpicker.TimeDurationPickerDialog;
 import mobi.upod.timedurationpicker.TimeDurationPicker;
 import mobi.upod.timedurationpicker.TimeDurationPickerDialogFragment;
 
+/**
+ * Duration Picker dialog
+ */
 public class PickerDialogFragment extends TimeDurationPickerDialogFragment {
 
     @Override

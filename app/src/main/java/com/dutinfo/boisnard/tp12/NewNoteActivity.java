@@ -1,12 +1,10 @@
 package com.dutinfo.boisnard.tp12;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import mobi.upod.timedurationpicker.TimeDurationPickerDialog;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class NewNoteActivity extends AppCompatActivity {
@@ -42,8 +39,6 @@ public class NewNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
 
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "task").allowMainThreadQueries().build();
 
         final Bundle intent = getIntent().getExtras();
@@ -51,26 +46,22 @@ public class NewNoteActivity extends AppCompatActivity {
             if (intent.getBoolean("edit")) {
                 EditText intitule = findViewById(R.id.intituleId);
                 intitule.setText(intent.getString("intitule"));
-//                db.taskDAO().editIntitule(intent.getString("intitule"), intent.getInt("position"));
 
                 EditText description = findViewById(R.id.descriptionId);
                 description.setText(intent.getString("description"));
-//                db.taskDAO().editIntitule(intent.getString("description"), intent.getInt("position"));
-
 
                 EditText duree = findViewById(R.id.dureeId);
                 duree.setText(intent.getString("duree"));
-//                db.taskDAO().editIntitule(intent.getString("duree"), intent.getInt("position"));
 
                 EditText date = findViewById(R.id.dateId);
                 date.setText(intent.getString("date"));
-//                db.taskDAO().editIntitule(intent.getString("date"), intent.getInt("position"));
             }
         }
 
+        // Set up back arrow
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // DATE PICKER DIALOG
+        // Date picker dialog
         this.dateText = findViewById(R.id.dateId);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -94,6 +85,8 @@ public class NewNoteActivity extends AppCompatActivity {
             }
         });
 
+
+        //Auto write "https://" when focus on url input
         final EditText url = findViewById(R.id.url);
         url.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -119,11 +112,9 @@ public class NewNoteActivity extends AppCompatActivity {
 
 
         final Button colorPicker = findViewById(R.id.buttonCP);
-
-
         final Button buttonColor = findViewById(R.id.buttonColor);
 
-
+        // List of colors
         final ArrayList<String> colors = new ArrayList<>();
         colors.add("#cfff95");
         colors.add("#ffff8b");
@@ -132,7 +123,6 @@ public class NewNoteActivity extends AppCompatActivity {
         colors.add("#ffffb3");
         colors.add("#ffddc1");
         colors.add("#ffc4ff");
-
 
         colorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +149,7 @@ public class NewNoteActivity extends AppCompatActivity {
         });
 
 
+        // Save data button
         Button buttonGenerator = findViewById(R.id.button);
         buttonGenerator.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,25 +160,21 @@ public class NewNoteActivity extends AppCompatActivity {
                 EditText et4 = findViewById(R.id.dateId);
                 EditText et5 = findViewById(R.id.url);
 
-
-
-
+                // Check if the URL is valid
                 if (url.getText().toString().matches("") || url.getText().toString().matches("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")) {
 
+                    // Check if title and description not empty
                     if (!et.getText().toString().matches("") && !et2.getText().toString().matches("")) {
 
-
+                        // Check if edit mode
                         if (intent != null && intent.getBoolean("edit")) {
-                            System.out.println("NewNoteActivity -> "  + intent.getInt("position"));
+                            System.out.println("NewNoteActivity -> " + intent.getInt("position"));
                             if (colorC != -1)
                                 db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, et5.getText().toString(), (intent.getInt("id")));
-//                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, et5.getText().toString(), (intent.getInt("position")));
                             else
                                 db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, et5.getText().toString(), (intent.getInt("id")));
-//                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, et5.getText().toString(), (intent.getInt("position")));
                             finish();
                         } else {
-
                             if (colorC != -1)
                                 db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, false, et5.getText().toString()));
                             else
@@ -197,6 +184,7 @@ public class NewNoteActivity extends AppCompatActivity {
                     }
 
                 } else
+                    // Toast if URL no valid
                     Toast.makeText(getApplicationContext(), "URL non valide !", Toast.LENGTH_SHORT).show();
             }
         });
@@ -213,7 +201,6 @@ public class NewNoteActivity extends AppCompatActivity {
     private void updateLabel() {
         String myFormat = "dd/MM/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         this.dateText.setText(sdf.format(myCalendar.getTime()));
     }
 }
