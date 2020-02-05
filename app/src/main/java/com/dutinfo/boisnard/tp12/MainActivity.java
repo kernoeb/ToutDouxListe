@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
         // Init ArrayList with local database
         this.tasks = new ArrayList<>(this.db.taskDAO().getAll());
+        ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         this.recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Init adapter
-        this.mAdapter = new AdapterList(this.tasks, this, getApplicationContext());
+        this.mAdapter = new AdapterList(printedTasks, this, getApplicationContext());
         this.recyclerView.setAdapter(mAdapter);
 
         this.recyclerView.addItemDecoration(new SpaceItemDecoration(10));
@@ -82,19 +83,18 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      * Sort tasks by the color
      */
     public void sortByColor(String color) {
-        if (color !=null) {
-            for (int i = 0; i < this.tasks.size(); i++) {
-                if (this.tasks.get(i).getColor() != Color.parseColor(color)) {
-                    this.recyclerView.getChildAt(i).setVisibility(View.GONE);
-                }
-                if (this.tasks.get(i).getColor() == Color.parseColor(color)) {
-                    this.recyclerView.getChildAt(i).setVisibility(View.VISIBLE);
+        ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
+        if (color != null) {
+            ArrayList<Task> tmp = new ArrayList<>(printedTasks);
+            for (Task task:tmp) {
+                System.out.println("color  : "+Color.parseColor(color)+"|"+task.getColor());
+                if (task.getColor() != Color.parseColor(color)) {
+                    printedTasks.remove(task);
                 }
             }
-        } else {
-            this.mAdapter = new AdapterList(this.tasks, this, getApplicationContext());
-            this.recyclerView.setAdapter(mAdapter);
         }
+        this.mAdapter = new AdapterList(printedTasks, this, getApplicationContext());
+        this.recyclerView.setAdapter(mAdapter);
     }
 
     /**
@@ -152,7 +152,9 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     public void removeElement(int position) {
         this.db.taskDAO().delete(this.tasks.get(position));
         this.tasks.remove(position);
-        mAdapter.notifyItemRemoved(position);
+        ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
+        this.mAdapter = new AdapterList(printedTasks, this, getApplicationContext());
+        this.recyclerView.setAdapter(mAdapter);
     }
 
     /**
@@ -277,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         colors.add("#ffddc1");
         colors.add("#ffc4ff");
         colors.add("#ffffff");
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.filter:
                 ColorPicker cP = new ColorPicker(this);
 
@@ -286,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
                 cP.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
                     @Override
                     public void onChooseColor(int position, int color) {
-                        if(position >= 0 && position<colors.size())
+                        if (position >= 0 && position < colors.size())
                             sortByColor(colors.get(position));
                         else
                             sortByColor(null);
@@ -303,7 +305,6 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }
