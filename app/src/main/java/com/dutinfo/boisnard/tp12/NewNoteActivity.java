@@ -1,13 +1,16 @@
 package com.dutinfo.boisnard.tp12;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import mobi.upod.timedurationpicker.TimeDurationPickerDialog;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class NewNoteActivity extends AppCompatActivity {
@@ -38,9 +42,11 @@ public class NewNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
 
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "task").allowMainThreadQueries().build();
 
-        Bundle intent = getIntent().getExtras();
+        final Bundle intent = getIntent().getExtras();
         if (intent != null) {
             if (intent.getBoolean("edit")) {
                 EditText intitule = findViewById(R.id.intituleId);
@@ -87,6 +93,29 @@ public class NewNoteActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        final EditText url = findViewById(R.id.url);
+        url.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (url.getText().toString().matches("")) {
+                        url.setText("https://");
+                    }
+                }
+            }
+        });
+
+
+        // Todo: durée dialog
+//        final EditText duree = findViewById(R.id.dureeId);
+//        duree.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new PickerDialogFragment().show(getFragmentManager(), "dialog");
+//            }
+//        });
+
 
         final Button colorPicker = findViewById(R.id.buttonCP);
 
@@ -138,15 +167,34 @@ public class NewNoteActivity extends AppCompatActivity {
                 EditText et3 = findViewById(R.id.dureeId);
                 EditText et4 = findViewById(R.id.dateId);
                 EditText et5 = findViewById(R.id.url);
-                if (!et.getText().toString().matches("") && !et2.getText().toString().matches("")) {
 
-                    if (colorC != -1)
-                        db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, false, et5.getText().toString()));
-                    else
-                        db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, false, et5.getText().toString()));
 
-                    finish();
-                }
+
+
+                if (url.getText().toString().matches("") || url.getText().toString().matches("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")) {
+
+                    if (!et.getText().toString().matches("") && !et2.getText().toString().matches("")) {
+
+
+                        if (intent != null && intent.getBoolean("edit")) {
+                            System.out.println("NewNoteActivity -> "  + intent.getInt("position"));
+                            if (colorC != -1)
+                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, et5.getText().toString(), (intent.getInt("position")+1));
+                            else
+                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, et5.getText().toString(), (intent.getInt("position")+1));
+                            finish();
+                        } else {
+
+                            if (colorC != -1)
+                                db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, false, et5.getText().toString()));
+                            else
+                                db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, false, et5.getText().toString()));
+                            finish();
+                        }
+                    }
+
+                } else
+                    Toast.makeText(getApplicationContext(), "URL non valide !", Toast.LENGTH_SHORT).show();
             }
         });
     }

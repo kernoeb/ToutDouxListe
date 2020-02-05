@@ -29,6 +29,9 @@ public interface TaskDAO {
     @Query("DELETE FROM task WHERE uid = :itemId")
     void deleteByItemId(long itemId);
 
+    @Query("UPDATE task SET intitule = :intitule, description = :description, duree = :duree, date = :date, color = :color, url = :url WHERE uid = :itemId")
+    void editAll(String intitule, String description, String duree, String date, int color, String url, long itemId);
+
     @Query("UPDATE task SET intitule = :intitule WHERE uid = :itemId")
     void editIntitule(String intitule, long itemId);
 

@@ -83,13 +83,9 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         TextView duree = v.findViewById(R.id.duree);
         TextView date = v.findViewById(R.id.date);
 
-
-//        System.out.println("POSITION : " + position);
-
-//        if (this.db.taskDAO().isCompleted(position) == 1) {
         if (this.tasks.get(position).isCompleted()) {
             System.out.println("COMPLÉTÉ > NON COMPLÉTÉ" + position);
-            this.db.taskDAO().editCompleted(false, (position+1));
+            this.db.taskDAO().editCompleted(false, (position + 1));
             this.tasks.get(position).setCompleted(false);
 
             intitule.setPaintFlags(0);
@@ -98,14 +94,9 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
             duree.setPaintFlags(0);
             GradientDrawable drawable = (GradientDrawable) v.getBackground();
             drawable.setColor(this.tasks.get(position).getColor());
-
-//            mAdapter.notifyItemChanged(position);
-
-//            recreate();
-
         } else {
             System.out.println("NON COMPLÉTÉ > COMPLÉTÉ " + position);
-            this.db.taskDAO().editCompleted(true, (position+1));
+            this.db.taskDAO().editCompleted(true, (position + 1));
             this.tasks.get(position).setCompleted(true);
 
 
@@ -116,10 +107,6 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
             GradientDrawable drawable = (GradientDrawable) v.getBackground();
             drawable.setColor(Color.parseColor("#cfd8dc"));
-
-//            mAdapter.notifyItemChanged(position);
-
-//            recreate();
         }
     }
 
@@ -158,27 +145,49 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Que voulez-vous faire ?");
 
-        String[] actions = {"Modifier", "Supprimer", "Ouvrir l'URL"};
-        builder.setItems(actions, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                System.out.println(which);
-                switch (which) {
-                    case 0:
-                        dialog.dismiss();
-                        editElement(position);
-                        break;
-                    case 1:
-                        dialog.dismiss();
-                        removeElement(position);
-                        break;
-                    case 2:
-                        dialog.dismiss();
-                        openWebview(position);
-                        break;
+        if (this.tasks.get(position).getUrl() != null && this.tasks.get(position).getUrl().matches("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")) {
+            String[] actions = {"Modifier", "Supprimer", "Ouvrir l'URL"};
+
+            builder.setItems(actions, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    System.out.println(which);
+                    switch (which) {
+                        case 0:
+                            dialog.dismiss();
+                            editElement(position);
+                            break;
+                        case 1:
+                            dialog.dismiss();
+                            removeElement(position);
+                            break;
+                        case 2:
+                            dialog.dismiss();
+                            openWebview(position);
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            String[] actions = {"Modifier", "Supprimer"};
+
+            builder.setItems(actions, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    System.out.println(which);
+                    switch (which) {
+                        case 0:
+                            dialog.dismiss();
+                            editElement(position);
+                            break;
+                        case 1:
+                            dialog.dismiss();
+                            removeElement(position);
+                            break;
+                    }
+                }
+            });
+        }
 
         AlertDialog dialog = builder.create();
         dialog.show();

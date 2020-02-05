@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".NewNoteActivity"/>
+        <activity
             android:name=".MyWebViewClient"
-            android:label="@string/title_activity_my_web_view_client"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".NewNoteActivity" />
+            android:label="@string/title_activity_my_web_view_client"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

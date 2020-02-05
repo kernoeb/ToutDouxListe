@@ -40,7 +40,7 @@ public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
         Task task = this.tasks.get(position);
         holder.intitule.setText(task.getIntitule());
         holder.date.setText(task.getDate());
-        holder.description.setText(task.getDescription());
+        holder.description.setText(task.getDescription() + "\n");
         holder.duree.setText(task.getDuree());
 
         int currentColor;

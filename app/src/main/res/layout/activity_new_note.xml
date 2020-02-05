@@ -20,15 +20,18 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/nameTaskAdd"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/descriptionId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:ems="10"
+        android:gravity="top"
         android:hint="@string/descriptionTaskAdd"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/dureeId"
@@ -36,7 +39,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/dureeTache"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/dateId"
@@ -49,7 +53,7 @@
         android:hint="@string/dateTache"
         android:inputType="none"
 
-        />
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/url"
@@ -82,5 +86,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/saveTask" />
+
 
 </LinearLayout>

@@ -14,11 +14,8 @@
     <string name="dateTaskAdd">Ajouter une date</string>
     <string name="saveTask">Sauvegarder la tâche</string>
 
-    <array name="dialog">
-        <item>Bonsoir</item>
-        <item>Bonsoir</item>
-        <item>Bonsoir</item>
-        <item>Bonsoir</item>
-    </array>
-    <string name="title_activity_my_web_view_client">MyWebViewClient</string>
+    <string name="title_activity_my_web_view_client">Webview</string>
+    <string name="tutoText">Balayez une tâche pour la supprimer\nCliquez pour la compléter</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

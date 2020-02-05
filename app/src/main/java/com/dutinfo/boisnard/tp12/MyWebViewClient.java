@@ -16,7 +16,7 @@ public class MyWebViewClient extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_layout);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         WebView webView = findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
