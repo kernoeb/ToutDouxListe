@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Swipe to delete tasks
  */
-public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
-    private MainActivity m;
+class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
+    private final MainActivity m;
 
     public SwipeToDeleteCallback(MainActivity m) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);

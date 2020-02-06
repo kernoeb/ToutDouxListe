@@ -1,4 +1,4 @@
-package com.dutinfo.boisnard.tp12.Tasks;
+package com.dutinfo.boisnard.tp12.tasks;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -7,28 +7,28 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Task {
     @PrimaryKey(autoGenerate = true)
-    private int uid;
+    private final int uid;
 
     @ColumnInfo(name = "intitule")
-    private String intitule;
+    private final String intitule;
 
     @ColumnInfo(name = "description")
-    private String description;
+    private final String description;
 
     @ColumnInfo(name = "duree")
-    private String duree;
+    private final String duree;
 
     @ColumnInfo(name = "date")
-    private String date;
+    private final String date;
 
     @ColumnInfo(name = "color")
-    private int color;
+    private final int color;
 
     @ColumnInfo(name = "completed")
     private boolean completed;
 
     @ColumnInfo(name = "url")
-    private String url;
+    private final String url;
 
     public Task(int uid, String intitule, String description, String duree, String date, int color, boolean completed, String url) {
         this.uid = uid;
@@ -45,10 +45,6 @@ public class Task {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public boolean isCompleted() {
         return completed;
     }
@@ -61,48 +57,24 @@ public class Task {
         return color;
     }
 
-    public void setColor(int color) {
-        this.color = color;
-    }
-
     public int getUid() {
         return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
     }
 
     public String getIntitule() {
         return intitule;
     }
 
-    public void setIntitule(String intitule) {
-        this.intitule = intitule;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getDuree() {
         return duree;
     }
 
-    public void setDuree(String duree) {
-        this.duree = duree;
-    }
-
     public String getDate() {
         return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
 

@@ -11,28 +11,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import com.dutinfo.boisnard.tp12.Tasks.Task;
-
-import org.w3c.dom.Text;
+import com.dutinfo.boisnard.tp12.tasks.Task;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
-import mobi.upod.timedurationpicker.TimeDurationPicker;
-import mobi.upod.timedurationpicker.TimeDurationPickerDialog;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class NewNoteActivity extends AppCompatActivity {
 
-    final Calendar myCalendar = Calendar.getInstance();
-    EditText dateText;
-    int colorC = -1;
+    private final Calendar myCalendar = Calendar.getInstance();
+    private EditText dateText;
+    private int colorC = -1;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -75,7 +71,7 @@ public class NewNoteActivity extends AppCompatActivity {
         }
 
         // Set up back arrow
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         // Date picker dialog
         this.dateText = findViewById(R.id.dateId);
@@ -182,31 +178,33 @@ public class NewNoteActivity extends AppCompatActivity {
                 EditText et5 = findViewById(R.id.url);
 
                 // Check if the URL is valid
-                if (url.getText().toString().matches("") || url.getText().toString().matches("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")) {
+                if (url.getText().toString().matches("") || url.getText().toString().matches("https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)")) {
 
                     // Check if title and description not empty
-                    if (!et.getText().toString().matches("") && !et2.getText().toString().matches("")) {
+                    if (!et.getText().toString().trim().matches("") && !et2.getText().toString().trim().matches("")) {
 
                         // Check if edit mode
                         if (intent != null && intent.getBoolean("edit")) {
-                            System.out.println("NewNoteActivity -> " + intent.getInt("position"));
                             if (colorC != -1)
-                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, et5.getText().toString(), (intent.getInt("id")));
+                                db.taskDAO().editAll(et.getText().toString().trim(), et2.getText().toString().trim(), et3.getText().toString().trim(), et4.getText().toString().trim(), colorC, et5.getText().toString().trim(), (intent.getInt("id")));
                             else
-                                db.taskDAO().editAll(et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, et5.getText().toString(), (intent.getInt("id")));
+                                db.taskDAO().editAll(et.getText().toString().trim(), et2.getText().toString().trim(), et3.getText().toString().trim(), et4.getText().toString().trim(), -1, et5.getText().toString().trim(), (intent.getInt("id")));
                             finish();
                         } else {
                             if (colorC != -1)
-                                db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), colorC, false, et5.getText().toString()));
+                                db.taskDAO().insertAll(new Task(0, et.getText().toString().trim(), et2.getText().toString().trim(), et3.getText().toString().trim(), et4.getText().toString().trim(), colorC, false, et5.getText().toString().trim()));
                             else
-                                db.taskDAO().insertAll(new Task(0, et.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString(), -1, false, et5.getText().toString()));
+                                db.taskDAO().insertAll(new Task(0, et.getText().toString().trim(), et2.getText().toString().trim(), et3.getText().toString().trim(), et4.getText().toString().trim(), -1, false, et5.getText().toString().trim()));
                             finish();
                         }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Veuillez entrer un nom et une description", Toast.LENGTH_SHORT).show();
                     }
 
-                } else
+                } else {
                     // Toast if URL no valid
                     Toast.makeText(getApplicationContext(), "URL non valide !", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -8,6 +8,8 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 /**
  * WebViewClient
  */
@@ -18,7 +20,7 @@ public class MyWebViewClient extends AppCompatActivity {
         setContentView(R.layout.webview_layout);
 
         // Back arrow in top bar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         WebView webView = findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
@@ -28,7 +30,7 @@ public class MyWebViewClient extends AppCompatActivity {
 
         // Get the url
         Bundle bundle = getIntent().getExtras();
-        String url = bundle.getString("url");
+        String url = Objects.requireNonNull(bundle).getString("url");
         webView.loadUrl(url);
     }
 

@@ -11,7 +11,7 @@ import mobi.upod.timedurationpicker.TimeDurationUtil;
  */
 public class PickerDialogFragment extends TimeDurationPickerDialogFragment {
 
-    private int maxDigits = 6;
+    private final int maxDigits = 6;
     private final StringBuilder input = new StringBuilder(maxDigits);
 
     @Override
@@ -33,7 +33,7 @@ public class PickerDialogFragment extends TimeDurationPickerDialogFragment {
 
     }
 
-    public void setDuration(long millis) {
+    private void setDuration(long millis) {
         setDuration(
                 TimeDurationUtil.hoursOf(millis),
                 TimeDurationUtil.minutesInHourOf(millis),

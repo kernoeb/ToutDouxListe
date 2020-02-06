@@ -1,6 +1,5 @@
 package com.dutinfo.boisnard.tp12;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
@@ -8,9 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dutinfo.boisnard.tp12.Tasks.Task;
+import com.dutinfo.boisnard.tp12.tasks.Task;
 
 import java.util.ArrayList;
 
@@ -20,20 +20,18 @@ import java.util.ArrayList;
 public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
 
     public static RecyclerViewClickListener itemListener;
-    private ArrayList<Task> tasks;
-    private Context context;
+    private final ArrayList<Task> tasks;
 
-    public AdapterList(ArrayList<Task> tasks, RecyclerViewClickListener itemListener, Context context) {
+    public AdapterList(ArrayList<Task> tasks, RecyclerViewClickListener itemListener) {
         AdapterList.itemListener = itemListener;
         this.tasks = tasks;
-        this.context = context;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
-        ViewHolder mv = new ViewHolder(item);
-        return mv;
+        return new ViewHolder(item);
     }
 
     @Override
@@ -43,6 +41,9 @@ public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
         holder.date.setText(task.getDate());
         holder.description.setText(task.getDescription() + "\n");
         holder.duree.setText(task.getDuree());
+        if (task.getUrl().trim().length() == 0) {
+            holder.itemView.findViewById(R.id.imageView).setVisibility(View.INVISIBLE);
+        }
 
         int currentColor;
         if (task.getColor() == -1) {
@@ -78,7 +79,7 @@ public class AdapterList extends RecyclerView.Adapter<ViewHolder> {
 
     // Interface to catch short press and long press
     public interface RecyclerViewClickListener {
-        void recyclerViewListClicked(View v, int position);
+        void recyclerViewListClicked(int position);
 
         void recyclerViewListClicked2(View v, int position);
     }

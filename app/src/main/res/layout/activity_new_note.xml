@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme2">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -24,7 +25,8 @@
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/nameTaskAdd"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            tools:targetApi="o" />
 
         <EditText
             android:id="@+id/descriptionId"
@@ -34,7 +36,8 @@
             android:ems="10"
             android:gravity="top"
             android:hint="@string/descriptionTaskAdd"
-            android:inputType="textPersonName|textMultiLine" />
+            android:inputType="textPersonName|textMultiLine"
+            tools:targetApi="o" />
 
         <EditText
             android:id="@+id/dureeId"
@@ -45,7 +48,8 @@
             android:ems="10"
             android:focusable="false"
             android:hint="@string/dureeTache"
-            android:inputType="none" />
+            android:inputType="none"
+            tools:targetApi="o" />
 
         <EditText
             android:id="@+id/dateId"
@@ -58,15 +62,18 @@
             android:focusable="false"
             android:hint="@string/dateTache"
 
-            android:inputType="none" />
+            android:inputType="none"
+            tools:targetApi="o" />
 
         <EditText
             android:id="@+id/url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
-            android:hint="Lien vers une page web"
-            android:inputType="textPersonName" />
+            android:hint="@string/urlHint"
+            android:inputType="textUri"
+            tools:targetApi="o" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,7 +84,7 @@
                 android:id="@+id/buttonCP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choisir une couleur" />
+                android:text="@string/colorChooseTitle" />
 
             <Button
                 android:id="@+id/buttonColor"

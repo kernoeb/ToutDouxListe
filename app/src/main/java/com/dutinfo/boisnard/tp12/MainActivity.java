@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import com.dutinfo.boisnard.tp12.Tasks.Task;
+import com.dutinfo.boisnard.tp12.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -32,11 +32,10 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 public class MainActivity extends AppCompatActivity implements AdapterList.RecyclerViewClickListener {
 
     // Second activity
-    static final int SECOND_ACTIVITY_REQUEST = 1;
+    private static final int SECOND_ACTIVITY_REQUEST = 1;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Task> tasks = new ArrayList<>();
     private AppDatabase db;
 
@@ -63,17 +62,19 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
         this.recyclerView = findViewById(R.id.recyclerView);
 
-        this.layoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true);
+        llm.setStackFromEnd(true);
 
-        this.recyclerView.setLayoutManager(layoutManager);
+        this.recyclerView.setLayoutManager(llm);
         this.recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Init adapter
-        this.mAdapter = new AdapterList(printedTasks, this, getApplicationContext());
+        this.mAdapter = new AdapterList(printedTasks, this);
         this.recyclerView.setAdapter(mAdapter);
 
-        this.recyclerView.addItemDecoration(new SpaceItemDecoration(10));
+        this.recyclerView.addItemDecoration(new SpaceItemDecoration(10, true, false));
 
+        this.recyclerView.smoothScrollToPosition(this.tasks.size());
         // Swipe to remove tasks
         setUpRecyclerView();
     }
@@ -81,25 +82,25 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     /**
      * Sort tasks by the color
      */
-    public void sortByColor(String color) {
+    private void sortByColor(String color) {
         ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
         if (color != null) {
             ArrayList<Task> tmp = new ArrayList<>(printedTasks);
-            for (Task task:tmp) {
-                System.out.println("color  : "+Color.parseColor(color)+"|"+task.getColor());
+            for (Task task : tmp) {
+                System.out.println("color  : " + Color.parseColor(color) + "|" + task.getColor());
                 if (task.getColor() != Color.parseColor(color)) {
                     printedTasks.remove(task);
                 }
             }
         }
-        this.mAdapter = new AdapterList(printedTasks, this, getApplicationContext());
+        this.mAdapter = new AdapterList(printedTasks, this);
         this.recyclerView.setAdapter(mAdapter);
     }
 
     /**
      * Open new note activity
      */
-    public void openNewActivity() {
+    private void openNewActivity() {
         Intent intent = new Intent(this, NewNoteActivity.class);
         startActivityForResult(intent, SECOND_ACTIVITY_REQUEST);
     }
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     }
 
     @Override
-    public void recyclerViewListClicked(View v, int position) {
+    public void recyclerViewListClicked(int position) {
         openDialog(position);
     }
 
@@ -152,8 +153,9 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         this.db.taskDAO().delete(this.tasks.get(position));
         this.tasks.remove(position);
         ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
-        this.mAdapter = new AdapterList(printedTasks, this, getApplicationContext());
+        this.mAdapter = new AdapterList(printedTasks, this);
         this.recyclerView.setAdapter(mAdapter);
+        this.recyclerView.smoothScrollToPosition(this.tasks.size());
     }
 
     /**
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      *
      * @param position position of the task
      */
-    public void editElement(int position) {
+    private void editElement(int position) {
         Intent intent = new Intent(this, NewNoteActivity.class);
         Task t = this.tasks.get(position);
         intent.putExtra("id", t.getUid());
@@ -183,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      *
      * @param position position of the task
      */
-    public void openWebview(int position) {
+    private void openWebview(int position) {
         final Intent intent = new Intent(this, MyWebViewClient.class);
         Task t = this.tasks.get(position);
         intent.putExtra("url", t.getUrl());
@@ -195,11 +197,11 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      *
      * @param position position of the task
      */
-    public void openDialog(final int position) {
+    private void openDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Que voulez-vous faire ?");
 
-        if (this.tasks.get(position).getUrl() != null && this.tasks.get(position).getUrl().matches("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")) {
+        if (this.tasks.get(position).getUrl() != null && this.tasks.get(position).getUrl().matches("https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)")) {
             String[] actions = {"Modifier", "Supprimer", "Ouvrir l'URL"};
 
             builder.setItems(actions, new DialogInterface.OnClickListener() {
@@ -249,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         recreate();
     }
 
@@ -279,35 +282,34 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         colors.add("#ffddc1");
         colors.add("#ffc4ff");
         colors.add("#ffffff");
-        switch (item.getItemId()) {
-            case R.id.filter:
-                final ColorPicker cP = new ColorPicker(this);
-                cP.setTitle("Choisir une couleur");
+        if (item.getItemId() == R.id.filter) {
+            final ColorPicker cP = new ColorPicker(this);
+            cP.setTitle("Choisir une couleur");
 
-                cP.setColors(colors);
+            cP.setColors(colors);
 
-                cP.disableDefaultButtons(true);
+            cP.disableDefaultButtons(true);
 
-                cP.addListenerButton("Réinitialiser", new ColorPicker.OnButtonListener() {
-                    @Override
-                    public void onClick(View v, int position, int color) {
+            cP.addListenerButton("Réinitialiser", new ColorPicker.OnButtonListener() {
+                @Override
+                public void onClick(View v, int position, int color) {
+                    sortByColor(null);
+                    cP.dismissDialog();
+                }
+            });
+
+            cP.addListenerButton("OK", new ColorPicker.OnButtonListener() {
+                @Override
+                public void onClick(View v, int position, int color) {
+                    if (position >= 0 && position < colors.size())
+                        sortByColor(colors.get(position));
+                    else
                         sortByColor(null);
-                        cP.dismissDialog();
-                    }
-                });
-
-                cP.addListenerButton("OK", new ColorPicker.OnButtonListener() {
-                    @Override
-                    public void onClick(View v, int position, int color) {
-                        if (position >= 0 && position < colors.size())
-                            sortByColor(colors.get(position));
-                        else
-                            sortByColor(null);
-                        cP.dismissDialog();
-                    }
-                });
-                cP.show();
-                return true;
+                    cP.dismissDialog();
+                }
+            });
+            cP.show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

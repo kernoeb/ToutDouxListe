@@ -4,9 +4,4 @@
     <color name="colorPrimaryDark">#673AB7</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="greenlight">#cfff95</color>
-    <color name="yellowlight">#ffff8b</color>
-    <color name="bluelight">#c3fdff</color>
-    <color name="pinklight">#ffc1e3</color>
-
 </resources>

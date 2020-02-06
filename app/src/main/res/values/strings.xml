@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Tout-Doux App</string>
-    <string name="ButtonGenerator">Ajouter une tâche</string>
-    <string name="textName" />
     <string name="titleApp">Tout-Doux App</string>
     <string name="titleNewNote">Ajouter une nouvelle note</string>
     <string name="description">Description</string>
@@ -10,12 +8,12 @@
     <string name="dateTache">Date</string>
     <string name="nameTaskAdd">Nom de la tâche</string>
     <string name="descriptionTaskAdd">Description de la tâche</string>
-    <string name="dureeTaskAdd">Durée de la tâche</string>
-    <string name="dateTaskAdd">Ajouter une date</string>
     <string name="saveTask">Sauvegarder la tâche</string>
 
     <string name="title_activity_my_web_view_client">Webview</string>
     <string name="tutoText">Balayez une tâche pour la supprimer\nCliquez pour la compléter</string>
+    <string name="urlHint">Lien vers une page web</string>
+    <string name="colorChooseTitle">Choisir une couleur</string>
+    <string name="itemMenu">Item</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

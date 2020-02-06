@@ -12,7 +12,10 @@ import static com.dutinfo.boisnard.tp12.AdapterList.itemListener;
  * ViewHolder for the RecyclerView
  */
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-    public TextView intitule, description, duree, date, url;
+    public final TextView intitule;
+    public final TextView description;
+    public final TextView duree;
+    public final TextView date;
 
     public ViewHolder(@NonNull View view) {
         super(view);
@@ -22,7 +25,6 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         this.description = view.findViewById(R.id.description);
         this.duree = view.findViewById(R.id.duree);
         this.date = view.findViewById(R.id.date);
-        this.url = view.findViewById(R.id.url);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     @Override
     public boolean onLongClick(View view) {
-        itemListener.recyclerViewListClicked(view, getAdapterPosition());
+        itemListener.recyclerViewListClicked(getAdapterPosition());
         return true;
     }
 
