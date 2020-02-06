@@ -1,5 +1,7 @@
 package com.dutinfo.boisnard.tp12;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         this.recyclerView.smoothScrollToPosition(this.tasks.size());
         // Swipe to remove tasks
         setUpRecyclerView();
+
+        reloadWidget();
     }
 
     /**
@@ -103,6 +107,17 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     private void openNewActivity() {
         Intent intent = new Intent(this, NewNoteActivity.class);
         startActivityForResult(intent, SECOND_ACTIVITY_REQUEST);
+    }
+
+    private void reloadWidget() {
+        try {
+            Intent intent = new Intent(this, HomeWidget.class);
+            intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+            int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), HomeWidget.class));
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            sendBroadcast(intent);
+        } catch (Exception e) {
+        }
     }
 
 
@@ -156,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         this.mAdapter = new AdapterList(printedTasks, this);
         this.recyclerView.setAdapter(mAdapter);
         this.recyclerView.smoothScrollToPosition(this.tasks.size());
+
+        reloadWidget();
     }
 
     /**
@@ -178,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         // Send boolean -> edit mode
         intent.putExtra("edit", true);
         startActivityForResult(intent, SECOND_ACTIVITY_REQUEST);
+
+        reloadWidget();
     }
 
     /**

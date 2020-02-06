@@ -15,5 +15,7 @@
     <string name="urlHint">Lien vers une page web</string>
     <string name="colorChooseTitle">Choisir une couleur</string>
     <string name="itemMenu">Item</string>
+    <string name="appwidget_text">Dernière tâche</string>
+    <string name="add_widget">Ajouter un widget</string>
 
 </resources>
