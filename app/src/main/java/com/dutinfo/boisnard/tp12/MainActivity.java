@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> printedTasks;
     private AppDatabase db;
 
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
 
         // Init ArrayList with local database
         this.tasks = new ArrayList<>(this.db.taskDAO().getAll());
-        ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
+        printedTasks = new ArrayList<>(this.tasks);
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      * Sort tasks by the color
      */
     private void sortByColor(String color) {
-        ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
+        printedTasks = new ArrayList<>(this.tasks);
         if (color != null) {
             ArrayList<Task> tmp = new ArrayList<>(printedTasks);
             for (Task task : tmp) {
@@ -128,9 +129,9 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         TextView duree = v.findViewById(R.id.duree);
         TextView date = v.findViewById(R.id.date);
 
-        if (this.tasks.get(position).isCompleted()) {
-            this.db.taskDAO().editCompleted(false, (this.tasks.get(position).getUid()));
-            this.tasks.get(position).setCompleted(false);
+        if (this.printedTasks.get(position).isCompleted()) {
+            this.db.taskDAO().editCompleted(false, (this.printedTasks.get(position).getUid()));
+            this.printedTasks.get(position).setCompleted(false);
 
             // Clean the item design
             intitule.setPaintFlags(0);
@@ -138,10 +139,10 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
             date.setPaintFlags(0);
             duree.setPaintFlags(0);
             GradientDrawable drawable = (GradientDrawable) v.getBackground();
-            drawable.setColor(this.tasks.get(position).getColor());
+            drawable.setColor(this.printedTasks.get(position).getColor());
         } else {
-            this.db.taskDAO().editCompleted(true, (this.tasks.get(position).getUid()));
-            this.tasks.get(position).setCompleted(true);
+            this.db.taskDAO().editCompleted(true, (this.printedTasks.get(position).getUid()));
+            this.printedTasks.get(position).setCompleted(true);
 
             // Strike out the task
             intitule.setPaintFlags(intitule.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -165,9 +166,16 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      * @param position position of the task
      */
     public void removeElement(int position) {
-        this.db.taskDAO().delete(this.tasks.get(position));
-        this.tasks.remove(position);
-        ArrayList<Task> printedTasks = new ArrayList<>(this.tasks);
+        this.db.taskDAO().delete(this.printedTasks.get(position));
+        Task removeTask = this.printedTasks.get(position);
+        this.printedTasks.remove(position);
+        ArrayList<Task> tmp = new ArrayList<>(this.tasks);
+        for (Task task : tmp) {
+            if (task.getUid()==removeTask.getUid()){
+                tmp.remove(task);
+            }
+        }
+        this.tasks = new ArrayList<>(tmp);
         this.mAdapter = new AdapterList(printedTasks, this);
         this.recyclerView.setAdapter(mAdapter);
         this.recyclerView.smoothScrollToPosition(this.tasks.size());
@@ -182,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      */
     private void editElement(int position) {
         Intent intent = new Intent(this, NewNoteActivity.class);
-        Task t = this.tasks.get(position);
+        Task t = this.printedTasks.get(position);
         intent.putExtra("id", t.getUid());
         intent.putExtra("intitule", t.getIntitule());
         intent.putExtra("description", t.getDescription());
@@ -206,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
      */
     private void openWebview(int position) {
         final Intent intent = new Intent(this, MyWebViewClient.class);
-        Task t = this.tasks.get(position);
+        Task t = this.printedTasks.get(position);
         intent.putExtra("url", t.getUrl());
         startActivity(intent);
     }
@@ -220,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Que voulez-vous faire ?");
 
-        if (this.tasks.get(position).getUrl() != null && this.tasks.get(position).getUrl().matches("https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)")) {
+        if (this.printedTasks.get(position).getUrl() != null && this.printedTasks.get(position).getUrl().matches("https?://(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)")) {
             String[] actions = {"Modifier", "Supprimer", "Ouvrir l'URL"};
 
             builder.setItems(actions, new DialogInterface.OnClickListener() {
