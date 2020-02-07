@@ -310,7 +310,12 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         colors.add("#ffffff");
         if (item.getItemId() == R.id.filter) {
             final ColorPicker cP = new ColorPicker(this);
-            cP.setTitle("Choisir une couleur");
+            cP.setTitle("Choisir une couleur" +
+                    "\nVert : Maison" +
+                    "\nJaune : Loisirs" +
+                    "\nBleu : Bureau" +
+                    "\nRose : Corvées" +
+                    "\nBlanc : autres");
 
             cP.setColors(colors);
 

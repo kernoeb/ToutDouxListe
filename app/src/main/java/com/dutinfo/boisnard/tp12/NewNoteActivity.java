@@ -139,7 +139,12 @@ public class NewNoteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final ColorPicker cP = new ColorPicker(NewNoteActivity.this);
 
-                cP.setTitle("Choisir une couleur");
+                cP.setTitle("Choisir une couleur" +
+                        "\nVert : Maison" +
+                        "\nJaune : Loisirs" +
+                        "\nBleu : Bureau" +
+                        "\nRose : Corvées" +
+                        "\nBlanc : autres");
 
                 cP.setColors(colors);
 
