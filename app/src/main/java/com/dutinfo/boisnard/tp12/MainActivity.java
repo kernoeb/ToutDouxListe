@@ -172,10 +172,9 @@ public class MainActivity extends AppCompatActivity implements AdapterList.Recyc
         ArrayList<Task> tmp = new ArrayList<>(this.tasks);
         for (Task task : tmp) {
             if (task.getUid()==removeTask.getUid()){
-                tmp.remove(task);
+                this.tasks.remove(task);
             }
         }
-        this.tasks = new ArrayList<>(tmp);
         this.mAdapter = new AdapterList(printedTasks, this);
         this.recyclerView.setAdapter(mAdapter);
         this.recyclerView.smoothScrollToPosition(this.tasks.size());
