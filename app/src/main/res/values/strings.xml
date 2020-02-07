@@ -11,7 +11,7 @@
     <string name="saveTask">Sauvegarder la tâche</string>
 
     <string name="title_activity_my_web_view_client">Webview</string>
-    <string name="tutoText">Balayez une tâche pour la supprimer\nCliquez pour la compléter</string>
+    <string name="tutoText">Balayez une tâche pour la supprimer\nClic long pour l\'éditer\nClic court pour compléter</string>
     <string name="urlHint">Lien vers une page web</string>
     <string name="colorChooseTitle">Choisir une couleur</string>
     <string name="itemMenu">Item</string>
